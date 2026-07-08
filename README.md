@@ -3,7 +3,7 @@
 Recon tool that queries the Internet Archive Wayback Machine for a target
 domain and downloads all archived files.
 
-## Status: v1.1 — filtering, random UA, sqlmap-style output
+## Status
 
 All modules implemented and functionally tested against mocked HTTP
 boundaries during development (no pytest suite checked in yet — see notes
