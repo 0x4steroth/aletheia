@@ -59,8 +59,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("output"),
-        help="Root output directory (default: ./output)",
+        default=Path("aletheia-output"),
+        help="Root output directory (default: ./aletheia-output)",
     )
     parser.add_argument(
         "--concurrency",
@@ -196,6 +196,7 @@ def main(argv: list[str] | None = None) -> int:
             logger.warning("No snapshots left after filtering")
             return 0
 
+        logger.info("Starting downloads to %s...", config.output_dir)
         summary = run_downloads(config, snapshots)
         logger.info(
             "Done — downloaded: %d, skipped: %d, failed: %d",
