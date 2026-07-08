@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aletheia"
+version = "1.0.0"
+description = "Wayback Machine Recon and Archive Downloader"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-3-Clause"
+authors = [
+    { name = "0x4steroth" }
+]
+
+dependencies = [
+    "requests",
+]
+
+[project.scripts]
+aletheia = "recon.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/0x4steroth/aletheia"
+Repository = "https://github.com/0x4steroth/aletheia"
+Issues = "https://github.com/0x4steroth/aletheia/issues"
+
+[tool.setuptools]
+# recon/ has no __init__.py by design (namespace package); setuptools'
+# auto-discovery keys off __init__.py, so the package is listed explicitly
+# here instead of relying on find_packages().
+packages = ["recon"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"

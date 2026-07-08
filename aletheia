@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+# Title: Aletheia - Wayback Machine Recon & Archive Downloader
+# Author: 0x4steroth
+
+import sys
+from pathlib import Path
+
+# Make the "recon" package importable regardless of the caller's current
+# working directory, since this script may be invoked as
+# `python /some/path/aletheia.py ...` from anywhere.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from recon.cli import main
+
+if __name__ == "__main__":
+    sys.exit(main())
