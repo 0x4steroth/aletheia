@@ -21,7 +21,7 @@ below):
 - `recon/user_agents.py` — static desktop browser UA list + rotation
 - `recon/cli.py` — argparse entry point, sqlmap-style bracket-tag log
   format (`[HH:MM:SS] [LEVEL] message`, no coloring) + plain-text banner
-- `aletheia.py` — standalone entry point script for running without
+- `aletheia` — standalone entry point script for running without
   `pip install`; verified to work from any working directory
 
 Full pipeline verified end-to-end (CDX parse → filter → path allocation →
@@ -40,10 +40,10 @@ aletheia example.com
 
 ```bash
 pip install requests   # only dependency needed
-python aletheia.py example.com
+python3 aletheia example.com
 ```
 
-`aletheia.py` at the project root works from any working directory and
+`aletheia` at the project root works from any working directory and
 calls the exact same code path as the installed `aletheia` command — no
 functional difference between the two options, just whether the package
 gets installed.
