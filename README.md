@@ -3,30 +3,6 @@
 Recon tool that queries the Internet Archive Wayback Machine for a target
 domain and downloads all archived files.
 
-## Status
-
-All modules implemented and functionally tested against mocked HTTP
-boundaries during development (no pytest suite checked in yet — see notes
-below):
-
-- `recon/config.py` — `ReconConfig` dataclass, all runtime tunables, `VERSION`
-- `recon/cdx_client.py` — CDX API querying, pagination + retry/backoff,
-  optional random User-Agent
-- `recon/storage.py` — deterministic collision-safe path allocation,
-  manifest-based resume tracking, file writes
-- `recon/downloader.py` — concurrent downloads, shared rate limiter,
-  retry/backoff, resume-aware skipping, optional random User-Agent
-- `recon/url_filter.py` — allowlist filtering by extension and/or MIME
-  type, applied before path allocation/download
-- `recon/user_agents.py` — static desktop browser UA list + rotation
-- `recon/cli.py` — argparse entry point, sqlmap-style bracket-tag log
-  format (`[HH:MM:SS] [LEVEL] message`, no coloring) + plain-text banner
-- `aletheia` — standalone entry point script for running without
-  `pip install`; verified to work from any working directory
-
-Full pipeline verified end-to-end (CDX parse → filter → path allocation →
-download → manifest write) with the network boundary mocked.
-
 ## Install & usage
 
 **Option 1 — pip install (recommended):**
@@ -71,26 +47,3 @@ Output lands in `<output-dir>/<domain>/`:
 - `snapshots/<timestamp>/` — used instead when `--all-snapshots` is set
 - `_manifest.jsonl` — one record per download attempt; re-running the same
   command automatically resumes and skips prior successes
-
-## Notes / open verification items
-
-- `cdx_client._paginated_query`'s resume-key parsing is implemented per
-  archive.org's documented CDX pagination behavior but has not been
-  verified against a **live** response (archive.org isn't reachable from
-  the sandbox this was built in). Everything else — path allocation,
-  manifest/resume, download retry/backoff, rate limiting, filtering,
-  random UA, CLI wiring — has been functionally tested, including full
-  end-to-end runs with only the network layer mocked. Worth a real run
-  against a small/low-traffic domain first to confirm pagination behaves
-  as expected before pointing it at a large target.
-- No formal test suite (pytest) is set up yet — testing so far was done
-  via ad hoc scripts during development, not checked into the repo.
-- Banner is a plain title/subtitle/rule, not full ASCII art — flagged in
-  case a more elaborate sqlmap-style logo is wanted.
-- `recon/` has no `__init__.py` by design — it's a PEP 420 namespace
-  package. This required adding a `[build-system]` table to
-  `pyproject.toml`, which was actually missing before (an oversight from
-  the initial scaffold) — `pip install -e .` would not have worked
-  correctly until this fix. Verified with a real editable install in an
-  isolated venv: build succeeds, the `aletheia` console-script runs, and
-  `recon.cli` imports correctly from the installed package.
