@@ -45,9 +45,26 @@ def normalize_target(raw: str) -> str:
     return netloc.strip("/").lower()
 
 
+# Argument parser helper
+class CompactHelpFormatter(argparse.RawDescriptionHelpFormatter):
+    """
+    RawDescriptionHelpFormatter with a tighter help-column alignment.
+
+    argparse's default max_help_position is 24, which pushes help text
+    far to the right (or onto a new line) for long option strings like
+    --resource FILE.
+    """
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_help_position", 40)
+        kwargs.setdefault("width", 100)
+        super().__init__(*args, **kwargs)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="aletheia",
+        formatter_class=CompactHelpFormatter,
         description="Download all archived files for a target domain from the Wayback Machine.",
     )
     parser.add_argument("target", help="Target domain, e.g. example.com")
